@@ -1,7 +1,12 @@
 package facades;
 
+import dtos.BoatDTO;
+import entities.Boat;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import java.util.Set;
 
 public class APIFacade {
     private static APIFacade instance;
@@ -23,27 +28,12 @@ public class APIFacade {
         return emf.createEntityManager();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public Set<BoatDTO> getAllBoats() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Boat> query = em.createQuery("SELECT b FROM Boat b", Boat.class);
+        Set<BoatDTO> boatDTOSet = BoatDTO.makeDTOSet(query.getResultList());
+        return boatDTOSet;
+    }
 
 
 //    public OwnerDTO getOwnerById(long id) { //throws RenameMeNotFoundException {

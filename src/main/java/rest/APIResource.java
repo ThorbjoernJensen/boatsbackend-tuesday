@@ -2,11 +2,13 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtos.BoatDTO;
 import facades.APIFacade;
 import facades.Populator;
 import utils.EMF_Creator;
 
 import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+import java.util.Set;
 
 @Path("boats")
 @DeclareRoles({"user", "admin"})
@@ -46,10 +49,20 @@ public class APIResource {
 
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("boat")
+//    @RolesAllowed({"user"})
+    public String getAllBoats(){
+        Set<BoatDTO> boatDTOSet = FACADE.getAllBoats();
+        return GSON.toJson(boatDTOSet);
+    }
+
+
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
 //    @Path("owner")
-////    @RolesAllowed({"user"})
+//    @RolesAllowed({"user"})
 //    public String getAllOwners() {
 //        Set<OwnerDTO> ownerDTOSet = FACADE.getAllOwners();
 //        return GSON.toJson(ownerDTOSet);
